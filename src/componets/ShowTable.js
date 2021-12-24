@@ -1,0 +1,127 @@
+import React, { useState } from "react";
+
+import Navbar from "./Navbar";
+import mockEventData from "../mock/mockEventData";
+import { CircularProgress } from "@material-ui/core";
+import { Grid, Card, CardContent } from "@material-ui/core";
+// imports for table
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import TablePagination from "@mui/material/TablePagination";
+
+function ShowTable() {
+  // SET STATE
+  const [eventData, setEventData] = useState(mockEventData);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  // RETRUN A TABLE ROW
+  const getTableRow = (event) => {
+    // console.log("EVENT in GET event-->", event);
+    const { _id, venue, artist, date, url } = event;
+    return (
+      <TableRow key={_id}>
+        <TableCell>{date}</TableCell>
+        <TableCell>{artist}</TableCell>
+        <TableCell>{venue}</TableCell>
+        <TableCell>{url}</TableCell>
+      </TableRow>
+    );
+  };
+
+  // PAGEINATION FUNCIONTS
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const dataLength = eventData.reslut.length;
+  console.log(dataLength);
+  // MAIN RETURN
+  return (
+    <>
+      <Navbar />
+      {eventData ? (
+        <>
+          <Grid container spacing={2} style={{ padding: "50px" }}>
+            <Paper
+              elevation={10}
+              sx={{
+                minWidth: 600,
+                maxWidth: 1200,
+                margin: "auto",
+                padding: "10px",
+              }}
+            >
+              <TableContainer justify="center" align="center">
+                <Table size="small" aria-label="simple table">
+                  <TableHead
+                    style={{ backgroundColor: "#424242", color: "#e8eded" }}
+                  >
+                    <TableRow>
+                      <TableCell align="center" style={{ color: "#e8eded" }}>
+                        DATE
+                      </TableCell>
+                      <TableCell align="center" style={{ color: "#e8eded" }}>
+                        ARTIST
+                      </TableCell>
+                      <TableCell align="center" style={{ color: "#e8eded" }}>
+                        VENUE
+                      </TableCell>
+                      <TableCell align="center" style={{ color: "#e8eded" }}>
+                        URL
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {eventData.reslut
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((event) => {
+                        return getTableRow(event);
+                      })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {/* PAGEINATION */}
+
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={dataLength}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+          </Grid>
+        </>
+      ) : (
+        // Progress circle
+        <Grid container justify="center" align="center">
+          <Grid item xs={12}>
+            <Card style={{ minHeight: "200px", backgroundColor: "#e8eded" }}>
+              <CardContent justify="center" align="center">
+                <CircularProgress color="#d95f27" />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      )}
+    </>
+  );
+}
+
+export default ShowTable;
