@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-
 import Navbar from "./Navbar";
 import mockEventData from "../mock/mockEventData";
 import { CircularProgress } from "@material-ui/core";
 import { Grid, Card, CardContent } from "@material-ui/core";
-// imports for table
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,26 +11,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-
+import Row from "./Row";
 function ShowTable() {
   // SET STATE
   const [eventData, setEventData] = useState(mockEventData);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // RETRUN A TABLE ROW
-  const getTableRow = (event) => {
-    // console.log("EVENT in GET event-->", event);
-    const { _id, venue, artist, date, url } = event;
-    return (
-      <TableRow key={_id}>
-        <TableCell>{date}</TableCell>
-        <TableCell>{artist}</TableCell>
-        <TableCell>{venue}</TableCell>
-        <TableCell>{url}</TableCell>
-      </TableRow>
-    );
-  };
 
   // PAGEINATION FUNCIONTS
   const handleChangePage = (event, newPage) => {
@@ -45,7 +29,6 @@ function ShowTable() {
   };
 
   const dataLength = eventData.reslut.length;
-  console.log(dataLength);
   // MAIN RETURN
   return (
     <>
@@ -68,6 +51,10 @@ function ShowTable() {
                     style={{ backgroundColor: "#424242", color: "#e8eded" }}
                   >
                     <TableRow>
+                      <TableCell
+                        align="center"
+                        style={{ color: "#e8eded" }}
+                      ></TableCell>
                       <TableCell align="center" style={{ color: "#e8eded" }}>
                         DATE
                       </TableCell>
@@ -78,7 +65,10 @@ function ShowTable() {
                         VENUE
                       </TableCell>
                       <TableCell align="center" style={{ color: "#e8eded" }}>
-                        URL
+                        SOURCE
+                      </TableCell>
+                      <TableCell align="center" style={{ color: "#e8eded" }}>
+                        SCRAPED
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -89,7 +79,8 @@ function ShowTable() {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((event) => {
-                        return getTableRow(event);
+                        // return getTableRow(event);
+                        return <Row key={event._id} row={event} />;
                       })}
                   </TableBody>
                 </Table>
