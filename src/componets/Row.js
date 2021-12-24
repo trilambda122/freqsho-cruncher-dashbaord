@@ -13,7 +13,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Link from "@mui/material/Link";
 
 import { fDate, fTime } from "../utils/formatDate";
-
+import { fArtist } from "../utils/formatArtist";
 function Row(props) {
   const { row } = props;
   const [rowOpen, setRowOpen] = useState(false);
@@ -31,7 +31,7 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell>{fDate(row.date)}</TableCell>
-        <TableCell>{row.artist}</TableCell>
+        <TableCell>{fArtist(row.artist)}</TableCell>
         <TableCell>{row.venue}</TableCell>
         <TableCell>
           <Link href={row.url} target="_blank">
