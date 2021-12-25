@@ -17,7 +17,6 @@ import { fArtist } from "../utils/formatArtist";
 function Row(props) {
   const { row } = props;
   const [rowOpen, setRowOpen] = useState(false);
-  console.log("DATE FORMAT : ", fDate(row.scrapeDate));
   return (
     <>
       <TableRow key={row._id}>

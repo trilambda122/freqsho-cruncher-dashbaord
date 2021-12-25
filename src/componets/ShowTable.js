@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import mockEventData from "../mock/mockEventData";
-import { CircularProgress } from "@material-ui/core";
-import { Grid, Card, CardContent } from "@material-ui/core";
+
+import Box from "@mui/material/Box";
+import { Grid, Card, CardContent, TextField } from "@material-ui/core";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,14 +13,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Row from "./Row";
-import Box from "@mui/material/Box";
+import SearchIcon from "@material-ui/icons/Search";
 import Skeleton from "@mui/material/Skeleton";
+
 function ShowTable() {
   // SET STATE
   const [eventData, setEventData] = useState(mockEventData);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  const [filter, setFilter] = useState("");
   // PAGEINATION FUNCIONTS
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -38,6 +40,10 @@ function ShowTable() {
     dataLength = 0;
   }
 
+  // SEARCH
+  const handleSearchChange = (e) => {
+    setFilter(e.target.value);
+  };
   // MAIN RETURN
   return (
     <>
@@ -54,6 +60,16 @@ function ShowTable() {
                 padding: "10px",
               }}
             >
+              <Box>
+                <SearchIcon />
+                <TextField
+                  variant="filled"
+                  label="Search"
+                  onChange={handleSearchChange}
+                  margin="dense"
+                />
+              </Box>
+
               <TableContainer justify="center" align="center">
                 <Table size="small" aria-label="simple table">
                   <TableHead
@@ -83,12 +99,19 @@ function ShowTable() {
                   </TableHead>
                   <TableBody>
                     {eventData.reslut
+                      .filter((e) => {
+                        const art = e.artist.join();
+                        if (e.venue.includes(filter) || art.includes(filter)) {
+                          return true;
+                        }
+
+                        // return e.venue.includes(filter);
+                      })
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((event) => {
-                        // return getTableRow(event);
                         return <Row key={event._id} row={event} />;
                       })}
                   </TableBody>
