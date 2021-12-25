@@ -12,6 +12,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Row from "./Row";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 function ShowTable() {
   // SET STATE
   const [eventData, setEventData] = useState(mockEventData);
@@ -28,7 +30,14 @@ function ShowTable() {
     setPage(0);
   };
 
-  const dataLength = eventData.reslut.length;
+  // set lenght of data for pageination
+  let dataLength;
+  if (eventData) {
+    dataLength = eventData.reslut.length;
+  } else {
+    dataLength = 0;
+  }
+
   // MAIN RETURN
   return (
     <>
@@ -101,11 +110,21 @@ function ShowTable() {
         </>
       ) : (
         // Progress circle
+
         <Grid container justify="center" align="center">
-          <Grid item xs={12}>
-            <Card style={{ minHeight: "200px", backgroundColor: "#e8eded" }}>
+          <Grid item xs={6}>
+            <Card
+              style={{
+                minHeight: "100px",
+                backgroundColor: "#76a2c5",
+                margin: "10px",
+              }}
+            >
               <CardContent justify="center" align="center">
-                <CircularProgress color="#d95f27" />
+                <Skeleton variant="rectangular" animation="pulse" />
+                <Skeleton animation="wave" />
+                <Skeleton animation="pulse" />
+                {/* <CircularProgress color="#d95f27" />   */}
               </CardContent>
             </Card>
           </Grid>
