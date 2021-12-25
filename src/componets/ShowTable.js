@@ -16,7 +16,7 @@ function ShowTable() {
   // SET STATE
   const [eventData, setEventData] = useState(mockEventData);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // PAGEINATION FUNCIONTS
   const handleChangePage = (event, newPage) => {
