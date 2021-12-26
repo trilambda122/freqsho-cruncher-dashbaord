@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import mockEventData from "../mock/mockEventData";
 
@@ -15,13 +15,22 @@ import TablePagination from "@mui/material/TablePagination";
 import Row from "./Row";
 import SearchIcon from "@material-ui/icons/Search";
 import Skeleton from "@mui/material/Skeleton";
-
+import { getAllShows } from "../utils/api";
 function ShowTable() {
   // SET STATE
-  const [eventData, setEventData] = useState(mockEventData);
+  const [eventData, setEventData] = useState();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState("");
+
+  // GET DATA
+  useEffect(async () => {
+    getAllShows().then((response) => {
+      console.log("RESPONSE-->", response);
+      setEventData(response.data.result);
+    });
+  }, []);
+
   // PAGEINATION FUNCIONTS
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -31,14 +40,6 @@ function ShowTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  // set lenght of data for pageination
-  let dataLength;
-  if (eventData) {
-    dataLength = eventData.reslut.length;
-  } else {
-    dataLength = 0;
-  }
 
   // SEARCH
   const handleSearchChange = (e) => {
@@ -98,14 +99,12 @@ function ShowTable() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {eventData.reslut
+                    {eventData
                       .filter((e) => {
                         const art = e.artist.join();
                         if (e.venue.includes(filter) || art.includes(filter)) {
                           return true;
                         }
-
-                        // return e.venue.includes(filter);
                       })
                       .slice(
                         page * rowsPerPage,
@@ -122,7 +121,7 @@ function ShowTable() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={dataLength}
+                count={eventData.length}
                 page={page}
                 onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}
