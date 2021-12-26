@@ -40,11 +40,14 @@ function ShowTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  // setup var for pageination total
+  let dataLength = 0;
 
   // SEARCH
   const handleSearchChange = (e) => {
     setFilter(e.target.value);
   };
+
   // MAIN RETURN
   return (
     <>
@@ -103,6 +106,7 @@ function ShowTable() {
                       .filter((e) => {
                         const art = e.artist.join();
                         if (e.venue.includes(filter) || art.includes(filter)) {
+                          dataLength = dataLength + 1;
                           return true;
                         }
                       })
@@ -121,7 +125,7 @@ function ShowTable() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={eventData.length}
+                count={dataLength}
                 page={page}
                 onPageChange={handleChangePage}
                 rowsPerPage={rowsPerPage}
