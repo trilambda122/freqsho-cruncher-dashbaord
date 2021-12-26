@@ -84,6 +84,10 @@ function ShowTable() {
                         align="center"
                         style={{ color: "#e8eded" }}
                       ></TableCell>
+                      <TableCell
+                        align="center"
+                        style={{ color: "#e8eded" }}
+                      ></TableCell>
                       <TableCell align="center" style={{ color: "#e8eded" }}>
                         DATE
                       </TableCell>

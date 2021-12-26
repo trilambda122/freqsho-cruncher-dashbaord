@@ -11,15 +11,32 @@ import Collapse from "@mui/material/Collapse";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Link from "@mui/material/Link";
-
+import EditIcon from "@mui/icons-material/Edit";
 import { fDate, fTime } from "../utils/formatDate";
 import { fArtist } from "../utils/formatArtist";
+
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+
 function Row(props) {
   const { row } = props;
   const [rowOpen, setRowOpen] = useState(false);
+
+  const handleEditClick = (e) => {
+    console.log("EDIT BUTTON");
+  };
   return (
     <>
       <TableRow key={row._id}>
+        <TableCell>
+          <IconButton
+            aria-label="edit row"
+            size="small"
+            onClick={handleEditClick}
+          >
+            <EditIcon color="primary" fontSize="small" />
+          </IconButton>
+        </TableCell>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -51,7 +68,6 @@ function Row(props) {
                   <TableRow>
                     <TableCell>ARTIST</TableCell>
                     <TableCell>STAGE</TableCell>
-
                     <TableCell>TIME</TableCell>
                     <TableCell>SPONSER</TableCell>
                     <TableCell>REVIEW</TableCell>
