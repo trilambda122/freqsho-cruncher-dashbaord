@@ -26,7 +26,6 @@ function ShowTable() {
   // GET DATA
   useEffect(async () => {
     getAllShows().then((response) => {
-      console.log("RESPONSE-->", response);
       setEventData(response.data.result);
     });
   }, []);
@@ -139,7 +138,7 @@ function ShowTable() {
           </Grid>
         </>
       ) : (
-        // Progress circle
+        // Loading Skeleton
 
         <Grid container justify="center" align="center">
           <Grid item xs={6}>

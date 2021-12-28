@@ -21,7 +21,6 @@ function Row(props) {
   const [editShow, setEditShow] = useState(false);
 
   const handleEditClick = (e) => {
-    console.log("EDIT BUTTON");
     setEditShow(!editShow);
   };
   return (
@@ -29,7 +28,11 @@ function Row(props) {
       {" "}
       {editShow ? (
         <>
-          <EditShow handleEditClick={handleEditClick} data={row} />
+          <EditShow
+            handleEditClick={handleEditClick}
+            data={row}
+            open={editShow}
+          />
         </>
       ) : (
         <>
